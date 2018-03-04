@@ -162,5 +162,48 @@ class TestPostalRateCalculator {
 		PostalRateCalculator.main(sample);
 		assertEquals("Post Type must be either: Regular, Xpress or Priority", specialOut.toString());
 	}
-
+	
+	@Test
+	public void incorrectStringLengthFromPC() {
+		String[] sample = new String[] {"HS 1C4", "H1S 1C4", "25.0", "25.0", "25.0", "10.83", "Regular"};
+		PostalRateCalculator.main(sample);
+		assertEquals("From postal code must have a length of 6", specialOut.toString());
+	}
+	@Test
+	public void incorrectStringLengthToPC() {
+		String[] sample = new String[] {"H1S 1C4", "HS 1C4", "25.0", "25.0", "25.0", "10.83", "Regular"};
+		PostalRateCalculator.main(sample);
+		assertEquals("To postal code must have a length of 6", specialOut.toString());
+	}
+	@Test
+	public void incorrectFormatFromPC() {
+		String[] sample = new String[] {"H12 1C4", "H1S 1C4", "25.0", "25.0", "25.0", "10.83", "Regular"};
+		PostalRateCalculator.main(sample);
+		assertEquals("From postal code should have this format: letter number letter number letter number", specialOut.toString());
+	}
+	@Test
+	public void incorrectFormatToPC() {
+		String[] sample = new String[] {"H1S 1C4", "H21 1C4", "25.0", "25.0", "25.0", "10.83", "Regular"};
+		PostalRateCalculator.main(sample);
+		assertEquals("To postal code should have this format: letter number letter number letter number", specialOut.toString());
+	}
+	@Test
+	public void ValidationForRegularPrice() {
+		String[] sample = new String[] {"H1S 1C4", "H2S 1Z4", "25.0", "25.0", "25.0", "10.83", "Regular"};
+		PostalRateCalculator.main(sample);
+		assertEquals("Regular Price is:$13.32", specialOut.toString());
+	}
+	@Test
+	public void ValidationForXpressPrice() {
+		String[] sample = new String[] {"H1S 1C4", "H2S 1Z4", "25.0", "25.0", "25.0", "10.83", "Xpress"};
+		PostalRateCalculator.main(sample);
+		assertEquals("Xpress Price is:$17.98", specialOut.toString());
+	}
+	@Test
+	public void ValidationForPriorityPrice() {
+		String[] sample = new String[] {"H1S 1C4", "H2S 1Z4", "25.0", "25.0", "25.0", "10.83", "Priority"};
+		PostalRateCalculator.main(sample);
+		assertEquals("Priority Price is:$30.18", specialOut.toString());
+	}
+	
 }
